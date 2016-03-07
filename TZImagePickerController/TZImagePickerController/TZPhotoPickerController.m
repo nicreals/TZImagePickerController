@@ -68,14 +68,58 @@ static CGSize AssetGridThumbnailSize;
     if (iOS7Later) top += 20;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - 50 - top) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.alwaysBounceHorizontal = NO;
-    if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 2);
+       if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 2);
     _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
     _collectionView.contentSize = CGSizeMake(self.view.tz_width, ((_model.count + 3) / 4) * self.view.tz_width);
     [self.view addSubview:_collectionView];
     [_collectionView registerNib:[UINib nibWithNibName:@"TZAssetCell" bundle:nil] forCellWithReuseIdentifier:@"TZAssetCell"];
+}
+
+- (void)updateViewConstraints {
+    CGFloat margin = 4;
+    CGFloat top = margin + 44;
+    [self.view addConstraints:@[
+
+                                //view1 constraints
+                                [NSLayoutConstraint constraintWithItem:_collectionView
+                                                             attribute:NSLayoutAttributeTop
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeTop
+                                                            multiplier:1.0
+                                                              constant:top],
+
+                                [NSLayoutConstraint constraintWithItem:_collectionView
+                                                             attribute:NSLayoutAttributeLeft
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeLeft
+                                                            multiplier:1.0
+                                                              constant:margin],
+
+                                [NSLayoutConstraint constraintWithItem:_collectionView
+                                                             attribute:NSLayoutAttributeBottom
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeBottom
+                                                            multiplier:1.0
+                                                              constant:-top],
+
+                                [NSLayoutConstraint constraintWithItem:_collectionView
+                                                             attribute:NSLayoutAttributeRight
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeRight
+                                                            multiplier:1
+                                                              constant:-margin],
+                                
+                                ]];
+    [super updateViewConstraints];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -97,13 +141,13 @@ static CGSize AssetGridThumbnailSize;
     }}
 
 //iOS 9分屏适配
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    CGFloat margin = 4;
-    CGFloat top = margin + 44;
-    if (iOS7Later) top += 20;
-    _collectionView.frame = CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - 50 - top);
-}
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    CGFloat margin = 4;
+//    CGFloat top = margin + 44;
+//    if (iOS7Later) top += 20;
+//    _collectionView.frame = CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - 50 - top);
+//}
 
 - (void)configBottomToolBar {
     UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 50, self.view.tz_width, 50)];
