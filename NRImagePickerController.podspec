@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name         = "NRImagePickerController"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "A  multiple imagepicker for iOS 6 or later with ALasset PHasset."
-  s.homepage     = "https://github.com/nicreals/TZImagePickerController.git"
+  s.homepage     = "https://github.com/nicreals/TZImagePickerController"
   s.license      = "MIT"
   s.author       = { "nic_reals" => "nic.reals@outlook.com" }
   s.platform     = :ios
