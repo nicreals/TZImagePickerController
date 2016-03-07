@@ -96,6 +96,15 @@ static CGSize AssetGridThumbnailSize;
         // [self updateCachedAssets];
     }}
 
+//iOS 9分屏适配
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat margin = 4;
+    CGFloat top = margin + 44;
+    if (iOS7Later) top += 20;
+    _collectionView.frame = CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - 50 - top);
+}
+
 - (void)configBottomToolBar {
     UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 50, self.view.tz_width, 50)];
     CGFloat rgb = 253 / 255.0;
