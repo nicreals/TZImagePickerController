@@ -91,7 +91,7 @@ static CGSize AssetGridThumbnailSize;
                                                                 toItem:self.view
                                                              attribute:NSLayoutAttributeTop
                                                             multiplier:1.0
-                                                              constant:-top],
+                                                              constant:top + 20],
 
                                 [NSLayoutConstraint constraintWithItem:_collectionView
                                                              attribute:NSLayoutAttributeLeft
