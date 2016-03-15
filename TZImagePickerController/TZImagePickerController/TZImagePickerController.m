@@ -23,18 +23,38 @@
     UIView *_HUDContainer;
     UIActivityIndicatorView *_HUDIndicatorView;
     UILabel *_HUDLable;
+    UIStatusBarStyle _originalBarStyle;
+    BOOL _barHiddenStatus;
 }
 @end
 
 @implementation TZImagePickerController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    _originalBarStyle = [UIApplication sharedApplication].statusBarStyle;
+    _barHiddenStatus = [UIApplication sharedApplication].statusBarHidden;
+    if (iOS7Later) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    } else {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    }
+
+    [UIApplication sharedApplication].statusBarHidden = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [UIApplication sharedApplication].statusBarStyle = _originalBarStyle;
+    [UIApplication sharedApplication].statusBarHidden = _barHiddenStatus;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationBar.translucent = YES;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [UIApplication sharedApplication].statusBarHidden = NO;
+
     
     // Default appearance, you can reset these after this method
     // 默认的外观，你可以在这个方法后重置

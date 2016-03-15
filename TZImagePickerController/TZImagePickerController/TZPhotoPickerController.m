@@ -14,6 +14,7 @@
 #import "UIView+Layout.h"
 #import "TZImageManager.h"
 #import "TZVideoPlayerController.h"
+#import <PhotosUI/PhotosUI.h>
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate> {
     UICollectionView *_collectionView;
@@ -330,13 +331,38 @@ static CGSize AssetGridThumbnailSize;
             videoPlayerVc.model = model;
             [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
-    } else {
+    } else if (model.type == TZAssetModelMediaTypeLivePhoto) {
+        if (_selectedPhotoArr.count > 0) {
+            TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+            [imagePickerVc showAlertWithTitle:@"选择照片时不能LivePhoto"];
+        } else {
+            [self displayLivePhotoWithModel:model];
+        }
+    }
+    else {
         TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
         photoPreviewVc.photoArr = _photoArr;
         photoPreviewVc.currentIndex = indexPath.row;
         [self pushPhotoPrevireViewController:photoPreviewVc];
     }
 }
+
+#pragma mark - LivePhoto
+
+- (void)displayLivePhotoWithModel:(TZAssetModel *)model {
+    PHAsset *asset = (PHAsset *)model.asset;
+//    PHImageManager *man = [[PHImageManager alloc] init];
+    PHImageManager *man = [PHImageManager defaultManager];
+
+    [man requestLivePhotoForAsset:asset targetSize:self.view.bounds.size contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(PHLivePhoto * _Nullable livePhoto, NSDictionary * _Nullable info) {
+        PHLivePhotoView *photoView = [[PHLivePhotoView alloc] initWithFrame:self.view.frame];
+        photoView.livePhoto = livePhoto;
+        [self.view addSubview:photoView];
+        [self.view sendSubviewToBack:photoView];
+    }];
+
+}
+
 
 #pragma mark - UIScrollViewDelegate
 
