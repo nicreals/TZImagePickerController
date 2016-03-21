@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.author       = { "nic_reals" => "nic.reals@outlook.com" }
   s.platform     = :ios
   s.ios.deployment_target = "6.0"
-  s.source       = { :git => "https://github.com/nicreals/TZImagePickerController.git", :tag => "1.1.4" }
+  s.source       = { :git => "https://github.com/nicreals/TZImagePickerController.git", :tag => "1.1.6" }
   s.requires_arc = true
   s.resources    = "TZImagePickerController/TZImagePickerController/Resource/*.{png,xib,nib}"
   s.source_files = "TZImagePickerController/TZImagePickerController/*.{h,m}"
